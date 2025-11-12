@@ -1,0 +1,320 @@
+# API Design
+
+## REST Endpoints
+- Use proper HTTP methods: GET, POST, PATCH, DELETE
+- Use proper HTTP status codes:
+  - 200: Success
+  - 201: Created
+  - 400: Bad Request
+  - 404: Not Found
+  - 500: Internal Server Error
+- Return consistent JSON responses
+- Include error messages in consistent format: `{ error: string, message?: string }`
+- Validate all inputs with Zod schemas
+- Use async endpoints for I/O operations
+
+## API Routes Structure
+```
+GET    /api/spots              - List all weather spots
+POST   /api/spots              - Add a new weather spot
+GET    /api/spots/:id          - Get spot details
+PATCH  /api/spots/:id          - Update spot (favorite, notes, etc.)
+DELETE /api/spots/:id          - Remove a weather spot
+
+GET    /api/spots/:id/weather  - Get current weather for a spot (from cache or API)
+GET    /api/spots/:id/history  - Get weather history for a spot
+POST   /api/spots/:id/weather  - Fetch fresh weather from OpenWeatherMap API and save
+
+GET    /api/weather/batch      - Get weather for all spots at once
+```
+
+## OpenWeatherMap API Integration
+
+### Primary API: One Call API 3.0
+**Base URL**: `https://api.openweathermap.org/data/3.0/onecall`
+
+**Endpoint**: `/onecall`
+- **Method**: GET
+- **Required Parameters**:
+  - `lat` (required): Latitude, decimal (-90 to 90)
+  - `lon` (required): Longitude, decimal (-180 to 180)
+  - `appid` (required): API key from environment variable
+- **Optional Parameters**:
+  - `exclude` (optional): Comma-delimited list (no spaces) to exclude parts: `current,minutely,hourly,daily,alerts`
+  - `units` (optional): `metric` (Celsius), `imperial` (Fahrenheit), or `standard` (Kelvin). Default: `standard`
+  - `lang` (optional): Language code (e.g., `en`, `es`). Default: `en`
+
+**Example Requests**:
+
+**Full Response** (current + forecasts + alerts):
+```
+GET https://api.openweathermap.org/data/3.0/onecall?lat=33.44&lon=-94.04&units=metric&appid={API_KEY}
+```
+
+**Exclude Parts** (only current weather):
+```
+GET https://api.openweathermap.org/data/3.0/onecall?lat=33.44&lon=-94.04&exclude=minutely,hourly,daily,alerts&units=metric&appid={API_KEY}
+```
+
+**Subscription Requirements**:
+- One Call API 3.0 requires separate "One Call by Call" subscription
+- Free tier: 1,000 calls/day included
+- After free tier: Pay per API call
+- **Note**: This is a separate subscription from other OpenWeatherMap plans
+
+**Update Frequency**:
+- Data updated every 10 minutes
+- Recommended: Request API every 10 minutes for most accurate data
+- Cache responses for 10 minutes to minimize API calls
+
+**Response Structure** (One Call API 3.0):
+```json
+{
+  "lat": 33.44,
+  "lon": -94.04,
+  "timezone": "America/Chicago",
+  "timezone_offset": -18000,
+  "current": {
+    "dt": 1684929490,
+    "sunrise": 1684926645,
+    "sunset": 1684977332,
+    "temp": 292.55,
+    "feels_like": 292.87,
+    "pressure": 1014,
+    "humidity": 89,
+    "dew_point": 290.69,
+    "uvi": 0.16,
+    "clouds": 53,
+    "visibility": 10000,
+    "wind_speed": 3.13,
+    "wind_deg": 93,
+    "wind_gust": 6.71,
+    "weather": [
+      {
+        "id": 803,
+        "main": "Clouds",
+        "description": "broken clouds",
+        "icon": "04d"
+      }
+    ]
+  },
+  "minutely": [
+    {
+      "dt": 1684929540,
+      "precipitation": 0
+    }
+  ],
+  "hourly": [
+    {
+      "dt": 1684926000,
+      "temp": 292.01,
+      "feels_like": 292.33,
+      "pressure": 1014,
+      "humidity": 91,
+      "dew_point": 290.51,
+      "uvi": 0,
+      "clouds": 54,
+      "visibility": 10000,
+      "wind_speed": 2.58,
+      "wind_deg": 86,
+      "wind_gust": 5.88,
+      "weather": [
+        {
+          "id": 803,
+          "main": "Clouds",
+          "description": "broken clouds",
+          "icon": "04n"
+        }
+      ],
+      "pop": 0.15
+    }
+  ],
+  "daily": [
+    {
+      "dt": 1684951200,
+      "sunrise": 1684926645,
+      "sunset": 1684977332,
+      "temp": {
+        "day": 298.82,
+        "min": 293.25,
+        "max": 301.9,
+        "night": 293.25,
+        "eve": 299.72,
+        "morn": 293.48
+      },
+      "feels_like": {
+        "day": 300.06,
+        "night": 292.46,
+        "eve": 300.87,
+        "morn": 293.75
+      },
+      "pressure": 1014,
+      "humidity": 82,
+      "dew_point": 295.52,
+      "wind_speed": 5.22,
+      "wind_deg": 146,
+      "weather": [
+        {
+          "id": 502,
+          "main": "Rain",
+          "description": "heavy intensity rain",
+          "icon": "10d"
+        }
+      ],
+      "clouds": 97,
+      "pop": 1,
+      "rain": 12.57,
+      "uvi": 10.64
+    }
+  ],
+  "alerts": [
+    {
+      "sender_name": "NWS",
+      "event": "Heat Advisory",
+      "start": 1597341600,
+      "end": 1597366800,
+      "description": "Heat index values of 105 to 109 degrees expected."
+    }
+  ]
+}
+```
+
+**Note**: 
+- `current` object contains current weather data
+- `minutely` array: minute-by-minute forecast for 1 hour (60 data points)
+- `hourly` array: hourly forecast for 48 hours
+- `daily` array: daily forecast for 8 days
+- `alerts` array: government weather alerts (may be empty)
+- Some fields may be optional or missing depending on location
+
+### Alternative: Current Weather Data API 2.5 (Fallback)
+**Base URL**: `https://api.openweathermap.org/data/2.5/weather`
+
+**Use Case**: Fallback option if One Call API 3.0 subscription is not available, or for simple current weather queries by city name.
+
+**Endpoint**: `/weather`
+- **Method**: GET
+- **Query Methods** (use ONE of the following):
+  - **By City Name**: `q={city name}` (e.g., `q=London` or `q=London,uk`)
+  - **By Coordinates**: `lat={lat}&lon={lon}` (e.g., `lat=37.7749&lon=-122.4194`)
+  - **By City ID**: `id={city id}` (numeric city ID from OpenWeatherMap)
+  - **By Zip Code**: `zip={zip code},{country code}` (e.g., `zip=10001,us`)
+- **Required Parameters**:
+  - `appid` (required): API key from environment variable
+- **Optional Parameters**:
+  - `units` (optional): `metric` (Celsius), `imperial` (Fahrenheit), or `standard` (Kelvin). Default: `metric`
+  - `lang` (optional): Language code (e.g., `en`, `es`). Default: `en`
+
+**Example**:
+```
+GET https://api.openweathermap.org/data/2.5/weather?q=San Francisco&units=metric&appid={API_KEY}
+```
+
+**Note**: API 2.5 is free tier but only provides current weather, no forecasts. Use One Call API 3.0 for forecasts and comprehensive data.
+
+### Historical Data (Future Enhancement)
+**Base URL**: `https://api.openweathermap.org/data/2.5/onecall/timemachine`
+- **Parameters**: `lat`, `lon`, `dt` (Unix timestamp), `appid`, `units`, `lang`
+- **Note**: Historical data requires paid subscription
+
+### Geocoding API (for City Search and Coordinate Lookup)
+**Base URL**: `https://api.openweathermap.org/geo/1.0/direct`
+
+**Endpoint**: `/direct`
+- **Method**: GET
+- **Parameters**:
+  - `q` (required): City name, state code, country code (e.g., "London,uk")
+  - `limit` (optional): Number of results (default: 5)
+  - `appid` (required): API key
+
+**Use Cases**:
+1. **City Search/Autocomplete**: Get multiple city matches with coordinates for user selection
+2. **Coordinate Lookup**: Get precise coordinates before creating a weather spot (more accurate than city name query)
+3. **Alternative to Direct Weather Query**: Use when you need coordinates first, then query weather by coordinates
+
+**Note**: You can query weather directly by city name using the `q` parameter in the Current Weather API, so Geocoding API is optional unless you need coordinates for map markers or want to handle multiple city matches.
+
+### Rate Limits
+- **Free Tier**: 60 calls/minute, 1,000,000 calls/month
+- **Implementation**: 
+  - Implement request queuing/throttling if needed
+  - Cache responses in database to minimize API calls
+  - Check cache freshness before making API calls (e.g., cache for 10-15 minutes)
+
+### Error Handling
+
+**One Call API 3.0 Error Response Structure**:
+```json
+{
+    "cod": 400,
+    "message": "Invalid date format",
+    "parameters": ["date"]
+}
+```
+
+**Error Codes**:
+- **400 Bad Request**: Missing or incorrect parameters. Check `parameters` array for which parameters are invalid
+- **401 Unauthorized**: Invalid API key or API key doesn't have access to One Call API 3.0. Must subscribe to "One Call by Call" subscription
+- **404 Not Found**: Data not found for requested coordinates/parameters. Do not retry the same request
+- **429 Too Many Requests**: Daily quota exceeded (1,000 calls/day free tier). Retry after some time or extend quota
+- **5xx Server Errors**: Internal server errors. Contact OpenWeatherMap support with request example. May retry request
+
+**Implementation**:
+- Check `cod` field in error response
+- Use `parameters` array to identify which request parameters caused the error
+- Implement exponential backoff for 429 errors
+- Log error details server-side for debugging
+- Return user-friendly error messages to frontend
+
+### Response Mapping to Database
+
+**Map One Call API 3.0 response to `weather_records` table** (only use fields that exist in API response):
+
+**From `current` object** (for current weather record):
+
+**Required Fields** (always present):
+- `current.temp` → `temperature` (decimal)
+- `current.weather[0].main` → `condition` (string, e.g., "Clear", "Clouds", "Rain")
+- `current.dt` → `recorded_at` (convert Unix timestamp to ISO timestamp)
+- `units` parameter → `temperature_unit` ('C' for metric, 'F' for imperial)
+
+**Optional Fields** (check if exists before mapping):
+- `current.humidity` → `humidity` (integer, 0-100) - may be null
+- `current.wind_speed` → `wind_speed` (decimal) - may be missing
+- `current.wind_deg` → `wind_direction` (integer, 0-360) - may be missing
+- `current.pressure` → `pressure` (decimal, hPa) - may be null
+
+**Additional Fields Available** (not stored in weather_records, but useful for UI):
+- `lat` / `lon` → Save to `weather_spots` table when creating/updating spot
+- `timezone` → Timezone string (e.g., "America/Chicago")
+- `current.feels_like` → Perceived temperature (display in UI)
+- `current.dew_point` → Dew point temperature (display in UI)
+- `current.uvi` → UV index (display in UI)
+- `current.clouds` → Cloudiness percentage (display in UI)
+- `current.visibility` → Visibility in meters (display in UI)
+- `current.wind_gust` → Wind gust speed (display in UI)
+- `current.weather[0].description` → Detailed description (display in UI)
+- `current.weather[0].icon` → Icon code (use for UI icons)
+- `current.sunrise` / `current.sunset` → Sunrise/sunset times (display in UI)
+
+**Forecast Data** (store separately or use for UI):
+- `hourly[]` → Hourly forecast for 48 hours (use for charts)
+- `daily[]` → Daily forecast for 8 days (use for extended forecast UI)
+- `minutely[]` → Minute-by-minute forecast for 1 hour (use for precipitation charts)
+- `alerts[]` → Government weather alerts (display in UI)
+
+**For API 2.5 Fallback** (if using Current Weather API 2.5):
+- `main.temp` → `temperature`
+- `weather[0].main` → `condition`
+- `main.humidity` → `humidity`
+- `wind.speed` → `wind_speed`
+- `wind.deg` → `wind_direction`
+- `main.pressure` → `pressure`
+- `coord.lat` / `coord.lon` → Save to `weather_spots`
+- `name` → Save to `weather_spots.city_name`
+- `sys.country` → Save to `weather_spots.country_code`
+
+**Important**: 
+- Always validate that fields exist before accessing them. Use optional chaining or null checks.
+- One Call API 3.0 uses `wind_speed` and `wind_deg` directly (not nested in `wind` object)
+- Store forecast data separately or use for UI display only (not in weather_records table)

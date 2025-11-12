@@ -1,0 +1,6 @@
+# Testing (Future)
+- Write unit tests for utility functions
+- Test API endpoints
+- Test database operations
+- Test React components
+- Use Vitest for frontend, Jest for backend

@@ -40,35 +40,88 @@ Weather Mapper allows users to add cities to their watchlist, view them on an in
 
 ## Quick Start
 
-1. **Setup Environment**
+### Prerequisites
+
+- Node.js 18+ installed
+- Supabase account (free tier works)
+- OpenWeatherMap API key with "One Call by Call" subscription (1,000 calls/day free)
+
+### Database Setup
+
+1. Create a Supabase project at https://supabase.com
+2. Run the migration SQL from `backend/migrations/001_initial_schema.sql` in your Supabase SQL editor
+3. Note your Supabase URL and anon key from the project settings
+
+### Backend Setup
+
+1. **Navigate to backend directory**
    ```bash
-   # Backend
    cd backend
-   cp .env.example .env
-   # Fill in your API keys
+   ```
 
-   # Frontend
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **Configure environment variables**
+   ```bash
+   cp .env.example .env
+   ```
+   
+   Edit `.env` and fill in:
+   - `SUPABASE_URL` - Your Supabase project URL
+   - `SUPABASE_ANON_KEY` - Your Supabase anon key
+   - `WEATHER_API_KEY` - Your OpenWeatherMap API key
+   - `CORS_ORIGIN` - Frontend URL (default: http://localhost:5173)
+
+4. **Run development server**
+   ```bash
+   npm run dev
+   ```
+   
+   Backend will run on http://localhost:3000
+
+### Frontend Setup
+
+1. **Navigate to frontend directory**
+   ```bash
    cd frontend
-   cp .env.example .env
    ```
 
-2. **Install Dependencies**
+2. **Install dependencies**
    ```bash
-   # Backend
-   cd backend && npm install
-
-   # Frontend
-   cd frontend && npm install
+   npm install
    ```
 
-3. **Run Development Servers**
+3. **Configure environment variables**
+   Create a `.env` file:
    ```bash
-   # Backend (port 3000)
-   cd backend && npm run dev
-
-   # Frontend (port 5173)
-   cd frontend && npm run dev
+   VITE_API_URL=http://localhost:3000
    ```
+
+4. **Run development server**
+   ```bash
+   npm run dev
+   ```
+   
+   Frontend will run on http://localhost:5173
+
+### Building for Production
+
+**Backend:**
+```bash
+cd backend
+npm run build
+npm start
+```
+
+**Frontend:**
+```bash
+cd frontend
+npm run build
+npm run preview
+```
 
 ## Requirements
 

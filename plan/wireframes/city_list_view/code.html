@@ -1,0 +1,243 @@
+<html>
+  <head>
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
+    <link
+      rel="stylesheet"
+      as="style"
+      onload="this.rel='stylesheet'"
+      href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter%3Awght%40400%3B500%3B700%3B900&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900"
+    />
+
+    <title>Stitch Design</title>
+    <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
+
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  </head>
+  <body>
+    <div
+      class="relative flex h-auto min-h-screen w-full flex-col bg-[#111b22] dark group/design-root overflow-x-hidden"
+      style="--checkbox-tick-svg: url('data:image/svg+xml,%3csvg viewBox=%270 0 16 16%27 fill=%27rgb(255,255,255)%27 xmlns=%27http://www.w3.org/2000/svg%27%3e%3cpath d=%27M12.207 4.793a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L6.5 9.086l4.293-4.293a1 1 0 011.414 0z%27/%3e%3c/svg%3e'); font-family: Inter, &quot;Noto Sans&quot;, sans-serif;"
+    >
+      <div class="layout-container flex h-full grow flex-col">
+        <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#233948] px-10 py-3">
+          <div class="flex items-center gap-8">
+            <div class="flex items-center gap-4 text-white">
+              <div class="size-4">
+                <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 4H17.3334V17.3334H30.6666V30.6666H44V44H4V4Z" fill="currentColor"></path></svg>
+              </div>
+              <h2 class="text-white text-lg font-bold leading-tight tracking-[-0.015em]">Weather Mapper</h2>
+            </div>
+            <div class="flex items-center gap-9">
+              <a class="text-white text-sm font-medium leading-normal" href="#">Dashboard</a>
+              <a class="text-white text-sm font-medium leading-normal" href="#">Map</a>
+              <a class="text-white text-sm font-medium leading-normal" href="#">History</a>
+            </div>
+          </div>
+          <div class="flex flex-1 justify-end gap-8">
+            <label class="flex flex-col min-w-40 !h-10 max-w-64">
+              <div class="flex w-full flex-1 items-stretch rounded-lg h-full">
+                <div
+                  class="text-[#92b2c9] flex border-none bg-[#233948] items-center justify-center pl-4 rounded-l-lg border-r-0"
+                  data-icon="MagnifyingGlass"
+                  data-size="24px"
+                  data-weight="regular"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                    <path
+                      d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"
+                    ></path>
+                  </svg>
+                </div>
+                <input
+                  placeholder="Search"
+                  class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-white focus:outline-0 focus:ring-0 border-none bg-[#233948] focus:border-none h-full placeholder:text-[#92b2c9] px-4 rounded-l-none border-l-0 pl-2 text-base font-normal leading-normal"
+                  value=""
+                />
+              </div>
+            </label>
+            <button
+              class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 bg-[#233948] text-white gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5"
+            >
+              <div class="text-white" data-icon="Bell" data-size="20px" data-weight="regular">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
+                  <path
+                    d="M221.8,175.94C216.25,166.38,208,139.33,208,104a80,80,0,1,0-160,0c0,35.34-8.26,62.38-13.81,71.94A16,16,0,0,0,48,200H88.81a40,40,0,0,0,78.38,0H208a16,16,0,0,0,13.8-24.06ZM128,216a24,24,0,0,1-22.62-16h45.24A24,24,0,0,1,128,216ZM48,184c7.7-13.24,16-43.92,16-80a64,64,0,1,1,128,0c0,36.05,8.28,66.73,16,80Z"
+                  ></path>
+                </svg>
+              </div>
+            </button>
+            <div
+              class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10"
+              style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuD-AoM60UZXxbvHlfr8qg4c6NmG4VEw_veoORbJB3tbnrXAEozFaB0Z3ZyBp3RsAdpNkVV8Z7LyyvDMf-lJcjoWpcL_qBxN2VAx8lJzZH1sFiolFwtc3RosqMoAqjX4q4T1sDrupuM1DPAtCzZ842Rj3ETxriG_YBtccWosVgIsPD_fJRgbtGdmUK2zXYAOMxjysO4CYqFUcdlqHOAANOlmwryCP-B-SUg7eM57gvzpR7QP-mar58n1RarWyTp4cyaBj4I5DxHagMuq");'
+            ></div>
+          </div>
+        </header>
+        <div class="px-40 flex flex-1 justify-center py-5">
+          <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
+            <div class="flex flex-wrap justify-between gap-3 p-4">
+              <p class="text-white tracking-light text-[32px] font-bold leading-tight min-w-72">Tracked Cities</p>
+              <button
+                class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-8 px-4 bg-[#233948] text-white text-sm font-medium leading-normal"
+              >
+                <span class="truncate">Add City</span>
+              </button>
+            </div>
+            <div class="px-4 py-3">
+              <label class="flex flex-col min-w-40 h-12 w-full">
+                <div class="flex w-full flex-1 items-stretch rounded-lg h-full">
+                  <div
+                    class="text-[#92b2c9] flex border-none bg-[#233948] items-center justify-center pl-4 rounded-l-lg border-r-0"
+                    data-icon="MagnifyingGlass"
+                    data-size="24px"
+                    data-weight="regular"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                      <path
+                        d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"
+                      ></path>
+                    </svg>
+                  </div>
+                  <input
+                    placeholder="Search cities"
+                    class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-white focus:outline-0 focus:ring-0 border-none bg-[#233948] focus:border-none h-full placeholder:text-[#92b2c9] px-4 rounded-l-none border-l-0 pl-2 text-base font-normal leading-normal"
+                    value=""
+                  />
+                </div>
+              </label>
+            </div>
+            <div class="px-4 py-3 @container">
+              <div class="flex overflow-hidden rounded-lg border border-[#325167] bg-[#111b22]">
+                <table class="flex-1">
+                  <thead>
+                    <tr class="bg-[#192833]">
+                      <th class="table-d187c88e-1ee9-49ff-a053-4b24583154a7-column-120 px-4 py-3 text-left text-white w-[400px] text-sm font-medium leading-normal">City</th>
+                      <th class="table-d187c88e-1ee9-49ff-a053-4b24583154a7-column-240 px-4 py-3 text-left text-white w-[400px] text-sm font-medium leading-normal">Country</th>
+                      <th class="table-d187c88e-1ee9-49ff-a053-4b24583154a7-column-360 px-4 py-3 text-left text-white w-[400px] text-sm font-medium leading-normal">Temperature</th>
+                      <th class="table-d187c88e-1ee9-49ff-a053-4b24583154a7-column-416 px-4 py-3 text-left text-white w-14 text-sm font-medium leading-normal">Condition</th>
+                      <th class="table-d187c88e-1ee9-49ff-a053-4b24583154a7-column-536 px-4 py-3 text-left text-white w-[400px] text-sm font-medium leading-normal">
+                        Last Updated
+                      </th>
+                      <th class="table-d187c88e-1ee9-49ff-a053-4b24583154a7-column-592 px-4 py-3 text-left text-white w-[120px] text-sm font-medium leading-normal">Favorite</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="border-t border-t-[#325167]">
+                      <td class="table-d187c88e-1ee9-49ff-a053-4b24583154a7-column-120 h-[72px] px-4 py-2 w-[400px] text-white text-sm font-normal leading-normal">London</td>
+                      <td class="table-d187c88e-1ee9-49ff-a053-4b24583154a7-column-240 h-[72px] px-4 py-2 w-[400px] text-[#92b2c9] text-sm font-normal leading-normal">UK</td>
+                      <td class="table-d187c88e-1ee9-49ff-a053-4b24583154a7-column-360 h-[72px] px-4 py-2 w-[400px] text-[#92b2c9] text-sm font-normal leading-normal">15°C</td>
+                      <td class="table-d187c88e-1ee9-49ff-a053-4b24583154a7-column-416 h-[72px] px-4 py-2 w-14 text-sm font-normal leading-normal">
+                        <div
+                          class="bg-center bg-no-repeat aspect-square bg-cover rounded-full w-10"
+                          style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCXD0gV2UaR3o33bIvrDzhE4AmFFSON76fxzyBaw-2IpVZ60Ac73-mLPccFTgcsRJpUEQJESxBpHObf_i3GVNFywLj-Es-LdCizY8fsS49yS-k3Ehh2J8R6j209Zfnnsc7yUT_kQH6uY2IT7stBZ2g_NH8ybY4h_lzfhyRDQpeiFKdrocypH5dJCA9nI3AVt_yN0MXebgj4AFzKVFStX5_toPskEBS43mJYjar6yTpnZZqybpcKBQplKKNORIRkJsEDonXcNfaMW4S4");'
+                        ></div>
+                      </td>
+                      <td class="table-d187c88e-1ee9-49ff-a053-4b24583154a7-column-536 h-[72px] px-4 py-2 w-[400px] text-[#92b2c9] text-sm font-normal leading-normal">
+                        2 hours ago
+                      </td>
+                      <td class="table-d187c88e-1ee9-49ff-a053-4b24583154a7-column-592 h-[72px] px-4 py-2 w-[120px] text-center text-sm font-normal leading-normal">
+                        <input
+                          type="checkbox"
+                          class="h-5 w-5 rounded border-[#325167] border-2 bg-transparent text-[#1392ec] checked:bg-[#1392ec] checked:border-[#1392ec] checked:bg-[image:--checkbox-tick-svg] focus:ring-0 focus:ring-offset-0 focus:border-[#325167] focus:outline-none"
+                        />
+                      </td>
+                    </tr>
+                    <tr class="border-t border-t-[#325167]">
+                      <td class="table-d187c88e-1ee9-49ff-a053-4b24583154a7-column-120 h-[72px] px-4 py-2 w-[400px] text-white text-sm font-normal leading-normal">Paris</td>
+                      <td class="table-d187c88e-1ee9-49ff-a053-4b24583154a7-column-240 h-[72px] px-4 py-2 w-[400px] text-[#92b2c9] text-sm font-normal leading-normal">France</td>
+                      <td class="table-d187c88e-1ee9-49ff-a053-4b24583154a7-column-360 h-[72px] px-4 py-2 w-[400px] text-[#92b2c9] text-sm font-normal leading-normal">18°C</td>
+                      <td class="table-d187c88e-1ee9-49ff-a053-4b24583154a7-column-416 h-[72px] px-4 py-2 w-14 text-sm font-normal leading-normal">
+                        <div
+                          class="bg-center bg-no-repeat aspect-square bg-cover rounded-full w-10"
+                          style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAFJPGi72_Lf7U1WhlHqCXqsFHmRr7zkTGMxP0mHBikO79_RDqXyjbQEgGUAv6K8S4cdw1CdXqHiS5zpZsengMt0T7KD9oOuRPQabz2o48KyskLJneqLbwPsuEuvdq2nehVAaQbNhPAIt3aa8Rj2t5wK3Afb7OLwK1sqFB1w3bDANEfs__Rc47wPzq7qHXkSoCmvN3HSGbBZYhFD_rNqb91yk7HaqyX9nDPBGrkaJWwfHvxCEf2q4NtdFtICMsUDeY7LaKE5X1r1_Px");'
+                        ></div>
+                      </td>
+                      <td class="table-d187c88e-1ee9-49ff-a053-4b24583154a7-column-536 h-[72px] px-4 py-2 w-[400px] text-[#92b2c9] text-sm font-normal leading-normal">
+                        3 hours ago
+                      </td>
+                      <td class="table-d187c88e-1ee9-49ff-a053-4b24583154a7-column-592 h-[72px] px-4 py-2 w-[120px] text-center text-sm font-normal leading-normal">
+                        <input
+                          type="checkbox"
+                          class="h-5 w-5 rounded border-[#325167] border-2 bg-transparent text-[#1392ec] checked:bg-[#1392ec] checked:border-[#1392ec] checked:bg-[image:--checkbox-tick-svg] focus:ring-0 focus:ring-offset-0 focus:border-[#325167] focus:outline-none"
+                        />
+                      </td>
+                    </tr>
+                    <tr class="border-t border-t-[#325167]">
+                      <td class="table-d187c88e-1ee9-49ff-a053-4b24583154a7-column-120 h-[72px] px-4 py-2 w-[400px] text-white text-sm font-normal leading-normal">New York</td>
+                      <td class="table-d187c88e-1ee9-49ff-a053-4b24583154a7-column-240 h-[72px] px-4 py-2 w-[400px] text-[#92b2c9] text-sm font-normal leading-normal">USA</td>
+                      <td class="table-d187c88e-1ee9-49ff-a053-4b24583154a7-column-360 h-[72px] px-4 py-2 w-[400px] text-[#92b2c9] text-sm font-normal leading-normal">22°C</td>
+                      <td class="table-d187c88e-1ee9-49ff-a053-4b24583154a7-column-416 h-[72px] px-4 py-2 w-14 text-sm font-normal leading-normal">
+                        <div
+                          class="bg-center bg-no-repeat aspect-square bg-cover rounded-full w-10"
+                          style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDarS1nfAP6u15lpKRYlyyHvP4itC7kN09UgLtuSX1iWhEP98V6VlyqfjNKN1pOsN5jAR7ao4FzH5hrBmKjI2lzyefaMuSsOJZ8mVpM0VZ3iumztVnmIvLJCgjNx4ZwaHcsq0EIpQ9ggl8_0lDNgwh1m-1SqlVv6onZtWvDcZlhKX5OnXw75QPxPQKrnGK1y0O5zT_ArQqVYDE8Sz2muLWX-fEumtCRYyVeivDmA4nrkDig0vDtlKMSDPNTXMXO-FfmYPjG-ZuxbGMz");'
+                        ></div>
+                      </td>
+                      <td class="table-d187c88e-1ee9-49ff-a053-4b24583154a7-column-536 h-[72px] px-4 py-2 w-[400px] text-[#92b2c9] text-sm font-normal leading-normal">
+                        1 hour ago
+                      </td>
+                      <td class="table-d187c88e-1ee9-49ff-a053-4b24583154a7-column-592 h-[72px] px-4 py-2 w-[120px] text-center text-sm font-normal leading-normal">
+                        <input
+                          type="checkbox"
+                          class="h-5 w-5 rounded border-[#325167] border-2 bg-transparent text-[#1392ec] checked:bg-[#1392ec] checked:border-[#1392ec] checked:bg-[image:--checkbox-tick-svg] focus:ring-0 focus:ring-offset-0 focus:border-[#325167] focus:outline-none"
+                        />
+                      </td>
+                    </tr>
+                    <tr class="border-t border-t-[#325167]">
+                      <td class="table-d187c88e-1ee9-49ff-a053-4b24583154a7-column-120 h-[72px] px-4 py-2 w-[400px] text-white text-sm font-normal leading-normal">Tokyo</td>
+                      <td class="table-d187c88e-1ee9-49ff-a053-4b24583154a7-column-240 h-[72px] px-4 py-2 w-[400px] text-[#92b2c9] text-sm font-normal leading-normal">Japan</td>
+                      <td class="table-d187c88e-1ee9-49ff-a053-4b24583154a7-column-360 h-[72px] px-4 py-2 w-[400px] text-[#92b2c9] text-sm font-normal leading-normal">25°C</td>
+                      <td class="table-d187c88e-1ee9-49ff-a053-4b24583154a7-column-416 h-[72px] px-4 py-2 w-14 text-sm font-normal leading-normal">
+                        <div
+                          class="bg-center bg-no-repeat aspect-square bg-cover rounded-full w-10"
+                          style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBxEYuCfAU15YsdaGXF7Xjloews2ac1QFUY9qe7PO20kyqUZ8Se88byu4nCaM987ARICMUP8KHRe3PCavvzvUYPERX6wrt-g6FQW4EJzTYTZtxq1hFm0vTRWLvzQNqRzlw-da24_JTSW0-jGfCQA8lo4KYgxDpRkoGY78aHAt3EHEfHBtr9pGHv7CPQMDXM35o2Bj-UYBripWB5-c-NfWp63P3z8QiMKW3siNuc66OQeaeCtCZq5lYKQZPRZROdIk2Wehb6HjvL3dyx");'
+                        ></div>
+                      </td>
+                      <td class="table-d187c88e-1ee9-49ff-a053-4b24583154a7-column-536 h-[72px] px-4 py-2 w-[400px] text-[#92b2c9] text-sm font-normal leading-normal">
+                        4 hours ago
+                      </td>
+                      <td class="table-d187c88e-1ee9-49ff-a053-4b24583154a7-column-592 h-[72px] px-4 py-2 w-[120px] text-center text-sm font-normal leading-normal">
+                        <input
+                          type="checkbox"
+                          class="h-5 w-5 rounded border-[#325167] border-2 bg-transparent text-[#1392ec] checked:bg-[#1392ec] checked:border-[#1392ec] checked:bg-[image:--checkbox-tick-svg] focus:ring-0 focus:ring-offset-0 focus:border-[#325167] focus:outline-none"
+                        />
+                      </td>
+                    </tr>
+                    <tr class="border-t border-t-[#325167]">
+                      <td class="table-d187c88e-1ee9-49ff-a053-4b24583154a7-column-120 h-[72px] px-4 py-2 w-[400px] text-white text-sm font-normal leading-normal">Sydney</td>
+                      <td class="table-d187c88e-1ee9-49ff-a053-4b24583154a7-column-240 h-[72px] px-4 py-2 w-[400px] text-[#92b2c9] text-sm font-normal leading-normal">
+                        Australia
+                      </td>
+                      <td class="table-d187c88e-1ee9-49ff-a053-4b24583154a7-column-360 h-[72px] px-4 py-2 w-[400px] text-[#92b2c9] text-sm font-normal leading-normal">20°C</td>
+                      <td class="table-d187c88e-1ee9-49ff-a053-4b24583154a7-column-416 h-[72px] px-4 py-2 w-14 text-sm font-normal leading-normal">
+                        <div
+                          class="bg-center bg-no-repeat aspect-square bg-cover rounded-full w-10"
+                          style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBXOLK_YMISD-OCfU35wdPxqa6rT857jvZ23CxjYtiWUonXbmaeGLAQ75lChmJAmY-pTbc3xTu5iIw3gcao_C5y-CT1cl8OR3dlY84ZACOGkIWDcnE9PdgNKRecpSma3j2iLEyxR19meGBOPj5BCCf8SRAnbhierXqiOc57MJCGk38qxG5j_xyNow0XKgBbB9Z_oHcc4RxY8AuAHc8e1zXzaFjRlBN9Qhe06Dh1s21G-sQWV47KcLYmoOjxqYQmeUVvOnRLuIjKUSYq");'
+                        ></div>
+                      </td>
+                      <td class="table-d187c88e-1ee9-49ff-a053-4b24583154a7-column-536 h-[72px] px-4 py-2 w-[400px] text-[#92b2c9] text-sm font-normal leading-normal">
+                        2 hours ago
+                      </td>
+                      <td class="table-d187c88e-1ee9-49ff-a053-4b24583154a7-column-592 h-[72px] px-4 py-2 w-[120px] text-center text-sm font-normal leading-normal">
+                        <input
+                          type="checkbox"
+                          class="h-5 w-5 rounded border-[#325167] border-2 bg-transparent text-[#1392ec] checked:bg-[#1392ec] checked:border-[#1392ec] checked:bg-[image:--checkbox-tick-svg] focus:ring-0 focus:ring-offset-0 focus:border-[#325167] focus:outline-none"
+                        />
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <style>
+                          @container(max-width:120px){.table-d187c88e-1ee9-49ff-a053-4b24583154a7-column-120{display: none;}}
+                @container(max-width:240px){.table-d187c88e-1ee9-49ff-a053-4b24583154a7-column-240{display: none;}}
+                @container(max-width:360px){.table-d187c88e-1ee9-49ff-a053-4b24583154a7-column-360{display: none;}}
+                @container(max-width:416px){.table-d187c88e-1ee9-49ff-a053-4b24583154a7-column-416{display: none;}}
+                @container(max-width:536px){.table-d187c88e-1ee9-49ff-a053-4b24583154a7-column-536{display: none;}}
+                @container(max-width:592px){.table-d187c88e-1ee9-49ff-a053-4b24583154a7-column-592{display: none;}}
+              </style>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

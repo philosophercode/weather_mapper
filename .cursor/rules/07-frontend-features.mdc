@@ -1,0 +1,23 @@
+# Frontend Features
+
+## Pages/Views
+1. **Map View (Home)**: Interactive map showing all cities with markers
+2. **City Detail View**: Modal/page showing current weather and history chart
+3. **Add City Form**: Form to search and add new cities
+4. **City List View**: Table/list view of all tracked cities (optional)
+5. **Settings Page**: User preferences (optional, low priority)
+
+## Components
+- MapView: Interactive map with Leaflet
+- CityMarker: Map marker with weather icon/temp
+- WeatherCard: Current weather display
+- WeatherHistoryChart: Temperature/condition history (use Recharts or Chart.js)
+- AddCityForm: Form with city search/autocomplete
+- CityDetailModal: Modal showing full weather details
+- CityList: List/table of cities
+
+## State Management
+- Use React Query for server state
+- Use React Context or Zustand for global UI state if needed
+- Keep component state local when possible
+- Implement optimistic updates where appropriate

@@ -1,0 +1,7 @@
+# Performance Considerations
+- Implement pagination for large lists
+- Use React Query caching to minimize API calls
+- Lazy load map components
+- Optimize images and assets
+- Use database indexes for queries
+- Implement debouncing for search inputs

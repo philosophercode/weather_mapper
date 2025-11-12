@@ -1,0 +1,33 @@
+# Tech Stack Standards
+
+## Backend (Express + TypeScript)
+- Use ES modules (`"type": "module"` in package.json)
+- Use async/await for all async operations
+- Use TypeScript strict mode
+- Use Zod for runtime validation and type inference
+- Follow RESTful API conventions
+- Include proper error handling middleware
+- Use environment variables for all secrets
+- Use `@supabase/supabase-js` for all database operations
+- Use `axios` or native `fetch` for external API calls
+- Structure routes in separate router files
+- Use dependency injection pattern for services
+
+## Frontend (React + TypeScript)
+- Use React Query (TanStack Query) for data fetching and caching
+- Implement loading and error states for all async operations
+- Use Tailwind CSS for styling
+- Follow mobile-first responsive design
+- Use shadcn/ui components where possible (per user preference)
+- Use TypeScript strict mode
+- Prefer functional components with hooks
+- Use React Router for navigation
+- Use Leaflet for map functionality (free option)
+
+## Database (Supabase)
+- Use UUID for primary keys
+- Include timestamps (`created_at`, `updated_at`) on all tables
+- Use foreign keys with CASCADE delete where appropriate
+- Create indexes for frequently queried columns
+- Use Supabase client for all database operations
+- Handle Supabase errors gracefully (check for PGRST116 for not found)

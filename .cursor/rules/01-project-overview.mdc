@@ -1,0 +1,10 @@
+# Project Overview
+
+Weather Mapper is a full-stack TypeScript application that allows users to track weather for multiple cities. Users can add cities, view them on an interactive map, see current weather conditions, and view historical weather data.
+
+## Architecture
+- **Backend**: Express.js with TypeScript
+- **Frontend**: React with TypeScript and Vite
+- **Database**: Supabase (PostgreSQL)
+- **Weather API**: OpenWeatherMap or WeatherAPI.com
+- **Map Library**: Leaflet (free) or Google Maps API

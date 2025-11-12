@@ -1,0 +1,8 @@
+# UI/UX Guidelines
+- Mobile-first responsive design
+- Show loading states for async operations
+- Provide clear error messages
+- Use consistent spacing and typography
+- Ensure accessibility (ARIA labels, keyboard navigation)
+- Use shadcn/ui Calendar component for any date inputs (per user preference)
+- Automatically save visualizations to project folder (per user preference)

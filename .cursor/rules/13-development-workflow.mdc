@@ -1,0 +1,7 @@
+# Development Workflow
+- Use meaningful commit messages
+- Create feature branches for new features
+- Test locally before deploying
+- Keep dependencies up to date
+- Document API changes
+- Follow semantic versioning

@@ -1,0 +1,8 @@
+# Hosting & Deployment
+- Backend: Deploy Express app with Node.js runtime (Railway, Render, Fly.io, or Vercel)
+- Frontend: Deploy React app (Vercel or Netlify)
+- Database: Supabase (hosted PostgreSQL)
+- Use environment variables for all configuration
+- Set up proper CORS for production
+- Configure proper error logging
+- Use connection pooling for Supabase (handled by client)

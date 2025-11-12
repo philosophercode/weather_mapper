@@ -1,0 +1,6 @@
+# Error Handling
+- Backend: Use error handling middleware
+- Frontend: Show user-friendly error messages
+- Handle network errors gracefully
+- Log errors appropriately (console in dev, proper logging in prod)
+- Provide fallback UI for error states

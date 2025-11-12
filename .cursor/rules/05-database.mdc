@@ -1,0 +1,27 @@
+# Database Schema
+
+## Tables
+1. **weather_spots**: Stores city/location information
+   - id (UUID, primary key)
+   - city_name (string)
+   - country_code (string, optional)
+   - latitude (decimal)
+   - longitude (decimal)
+   - is_favorite (boolean)
+   - notes (text, optional)
+   - created_at, updated_at (timestamps)
+
+2. **weather_records**: Stores historical weather data
+   - id (UUID, primary key)
+   - weather_spot_id (UUID, foreign key)
+   - temperature (decimal)
+   - temperature_unit (string)
+   - condition (string)
+   - humidity, wind_speed, wind_direction, pressure (optional)
+   - recorded_at, created_at (timestamps)
+
+## Database Operations
+- Always use transactions for multi-table operations
+- Handle foreign key constraints properly
+- Use indexes for performance on frequently queried columns
+- Implement soft deletes if needed (or use CASCADE)

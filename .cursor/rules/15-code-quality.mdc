@@ -1,0 +1,8 @@
+# Code Quality
+- Keep functions small and focused
+- Avoid deep nesting
+- Use early returns
+- Extract magic numbers/strings to constants
+- Comment complex logic
+- Refactor when code duplication appears
+- Follow DRY (Don't Repeat Yourself) principle

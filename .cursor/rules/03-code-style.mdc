@@ -1,0 +1,18 @@
+# Code Style
+
+## TypeScript Standards
+- Use strict type checking
+- Define interfaces/types for all data structures
+- Avoid `any` type - use `unknown` if needed
+- Use type guards for runtime type checking
+- Export types/interfaces from dedicated type files
+- Use meaningful variable and function names
+- Add JSDoc comments for public functions
+- Group imports: external libraries, internal modules, types
+
+## File Organization
+- Backend: Organize by feature (routes, services, types, middleware)
+- Frontend: Organize by feature (components, pages, hooks, services, types)
+- Use consistent naming: PascalCase for components/types, camelCase for functions/variables
+- Keep components small and focused
+- Extract reusable logic into custom hooks

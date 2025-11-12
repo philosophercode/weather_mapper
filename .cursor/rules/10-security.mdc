@@ -1,0 +1,7 @@
+# Security
+- Never expose API keys in frontend code
+- Use environment variables for all secrets
+- Validate all user inputs
+- Sanitize data before storing in database
+- Configure CORS properly for production
+- Use HTTPS in production

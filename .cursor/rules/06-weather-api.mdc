@@ -1,0 +1,141 @@
+# Weather API Integration
+
+## OpenWeatherMap API Usage
+- **Primary API**: One Call API 3.0 (`/data/3.0/onecall`)
+- **Base URL**: `https://api.openweathermap.org/data/3.0/onecall`
+- **Authentication**: API key via `appid` query parameter
+- **Query Method**: **By coordinates only** - `lat={lat}&lon={lon}` (required)
+- **Request Format**: GET with `lat`, `lon`, `appid`, plus optional `exclude`, `units`, `lang`
+- **Response Format**: JSON with `current`, `minutely`, `hourly`, `daily`, `alerts` objects
+- **Subscription**: Requires "One Call by Call" subscription (1,000 calls/day free, then pay per call)
+- **Update Frequency**: Data updated every 10 minutes - recommend requesting every 10 minutes
+
+**Fallback API**: Current Weather Data API 2.5 (`/data/2.5/weather`)
+- Use if One Call API 3.0 subscription not available
+- Supports query by city name: `q={city name}`
+- Only provides current weather (no forecasts)
+
+## Implementation Guidelines
+
+### API Key Management
+- Store API key in environment variable: `WEATHER_API_KEY` or `OPENWEATHER_API_KEY`
+- Never expose API key in frontend code
+- Use backend proxy for all OpenWeatherMap API calls
+
+### Caching Strategy
+- Cache weather data in database (weather_records table)
+- Cache duration: 10 minutes (matches One Call API 3.0 update frequency)
+- Check cache freshness before making API calls
+- Store `recorded_at` timestamp from API response (`current.dt` field for One Call API 3.0)
+- For One Call API 3.0: Request every 10 minutes for most accurate data
+
+### Rate Limiting
+- **One Call API 3.0**: 1,000 calls/day free (included in subscription), then pay per call
+- **API 2.5 Fallback**: 60 calls/minute, 1,000,000 calls/month (free tier)
+- Implement request queuing/throttling if approaching limits
+- Use batch endpoint (`/api/weather/batch`) to minimize individual calls
+- Implement exponential backoff for 429 (Too Many Requests) errors
+- Monitor API usage and set up alerts for approaching daily limits
+
+### Error Handling
+- **401 Unauthorized**: Log error, return user-friendly message about API key issue
+- **404 Not Found**: Return "Location not found" message
+- **429 Rate Limit**: Implement exponential backoff, queue request, return "Service temporarily unavailable"
+- **500/502/503**: Retry with exponential backoff (max 3 retries)
+- Always return user-friendly error messages to frontend
+- Log detailed errors server-side for debugging
+
+### Data Validation
+- Validate OpenWeatherMap API responses before storing
+- Use Zod schemas to validate response structure
+- Handle missing or null fields gracefully
+- Map API response fields to database schema correctly
+
+### Response Mapping
+
+**One Call API 3.0 Response Mapping** (only extract fields that exist):
+
+**From `current` object** (for weather_records table):
+
+**Required Fields** (always extract):
+- `current.temp` → `temperature` (always present)
+- `current.weather[0].main` → `condition` (always present, e.g., "Clear", "Clouds", "Rain")
+- `current.dt` → `recorded_at` (convert Unix timestamp to ISO timestamp)
+- `units` parameter → `temperature_unit` ('C' for metric, 'F' for imperial)
+
+**Optional Fields** (check existence before extracting):
+- `current.humidity` → `humidity` (may be null or missing)
+- `current.wind_speed` → `wind_speed` (may be missing - note: not nested in `wind` object)
+- `current.wind_deg` → `wind_direction` (may be missing - note: not nested in `wind` object)
+- `current.pressure` → `pressure` (may be null)
+
+**Additional Fields** (extract for weather_spots table when creating spot):
+- `lat` → `latitude` (save to weather_spots)
+- `lon` → `longitude` (save to weather_spots)
+- `timezone` → Timezone string (can store for reference)
+
+**Forecast Data** (use for UI, not stored in weather_records):
+- `hourly[]` → Hourly forecast for 48 hours (use for charts)
+- `daily[]` → Daily forecast for 8 days (use for extended forecast)
+- `minutely[]` → Minute forecast for 1 hour (use for precipitation charts)
+- `alerts[]` → Weather alerts (display in UI)
+
+**API 2.5 Fallback Mapping** (if using Current Weather API 2.5):
+- `main.temp` → `temperature`
+- `weather[0].main` → `condition`
+- `main.humidity` → `humidity`
+- `wind.speed` → `wind_speed` (nested in `wind` object)
+- `wind.deg` → `wind_direction` (nested in `wind` object)
+- `main.pressure` → `pressure`
+- `coord.lat` / `coord.lon` → Save to weather_spots
+- `name` → Save to weather_spots.city_name
+- `sys.country` → Save to weather_spots.country_code
+
+**Validation Rules**:
+- **One Call API 3.0**: `wind_speed` and `wind_deg` are direct properties of `current` object (not nested)
+- **API 2.5**: `wind.speed` and `wind.deg` are nested in `wind` object - check if `wind` exists first
+- Always check if optional fields exist before accessing them
+- Handle null/undefined values gracefully - use optional chaining (`response.current?.wind_speed`)
+- Use Zod schema validation to ensure response structure matches expected format
+- Convert Unix timestamp (`dt` or `current.dt`) to ISO 8601 format for `recorded_at`
+
+### Historical Data
+- Store historical data for charting (last 7 days minimum)
+- Use `recorded_at` timestamp for time-series queries
+- Consider using One Call API 3.0 for historical data if available (paid tier)
+
+### Query Strategy Options
+
+**For One Call API 3.0** (Primary):
+- **Required**: Must use coordinates (`lat`/`lon`) - cannot query by city name directly
+- **Workflow**: City name → Geocoding API → Get coordinates → One Call API 3.0
+- Use Geocoding API (`/geo/1.0/direct`) to convert city name to coordinates
+- Then query One Call API 3.0 with coordinates
+- Response includes comprehensive data: current, forecasts, alerts
+
+**For API 2.5 Fallback** (Alternative):
+
+**Option 1: Direct City Name to Weather** (Simplest)
+- Query weather directly using `q={city name}` parameter
+- No need for Geocoding API if you just want weather data
+- Response includes coordinates in `coord` field, which you can save to database
+- Example: `GET /weather?q=London&units=metric&appid={KEY}`
+
+**Option 2: Geocoding First, Then Weather** (More Control)
+- Use Geocoding API (`/geo/1.0/direct`) for city search/autocomplete
+- Get coordinates and handle multiple results - let user select correct location
+- Then query weather using coordinates (`lat`/`lon`) for more accuracy
+- Better for map markers and precise location handling
+
+**Recommendation**: 
+- **Primary**: Use One Call API 3.0 with Geocoding API for comprehensive weather data
+- **Fallback**: Use API 2.5 Option 1 (direct city name) for simple current weather queries
+- Always use Geocoding API first when using One Call API 3.0 to get coordinates
+
+### Best Practices
+- Use async/await for all API calls
+- Implement retry logic for failed API calls (max 3 retries with exponential backoff)
+- Batch requests when possible (use `/api/weather/batch` endpoint)
+- Monitor API usage and implement alerts if approaching limits
+- Use `units=metric` for consistent Celsius temperature display
+- Use `lang=en` for English descriptions (or user preference)
